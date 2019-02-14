@@ -89,6 +89,15 @@ type Wav struct {
 	io.Reader
 	io.ReaderAt
 	io.Closer
+	pos uint32
+}
+
+func (this *Wav) DataBytesCount() uint32 {
+	return this.Subchunk2Size()
+}
+
+func (this *Wav) GetPos() uint32 {
+	return this.pos
 }
 
 func New(path string) (*Wav, error) {
@@ -111,12 +120,8 @@ func New(path string) (*Wav, error) {
 		return nil, errors.New("Failed to read 44 bytes(wav header size)")
 	}
 
-	w := &Wav{WavHHeader: WavHHeader{hdr: b}, Reader: fd, ReaderAt: fd, Closer: fd}
+	w := &Wav{WavHHeader: WavHHeader{hdr: b}, Reader: fd, ReaderAt: fd, Closer: fd, pos: 44}
 
 	return w, nil
 
-}
-
-func (this *Wav) PrintHeader() {
-	this.String()
 }
