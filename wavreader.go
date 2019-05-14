@@ -17,55 +17,55 @@ func handleErr(err error) bool {
 }
 
 type WavHHeader struct {
-	hdr []byte
+	Hdr []byte
 }
 
 func (this *WavHHeader) chunkId() string {
-	return string(this.hdr[:4])
+	return string(this.Hdr[:4])
 }
 
 func (this *WavHHeader) chunkSize() uint32 {
-	return conv.BytesToUint32(this.hdr, 4)
+	return conv.BytesToUint32(this.Hdr, 4)
 }
 
 func (this *WavHHeader) format() string {
-	return string(this.hdr[8:12])
+	return string(this.Hdr[8:12])
 }
 
 func (this *WavHHeader) subchunkID() string {
-	return string(this.hdr[12:16])
+	return string(this.Hdr[12:16])
 }
 
 func (this *WavHHeader) Subchunk1Size() uint32 {
-	return conv.BytesToUint32(this.hdr, 16)
+	return conv.BytesToUint32(this.Hdr, 16)
 }
 func (this *WavHHeader) AudioFormat() uint16 {
-	return conv.BytesToUint16(this.hdr, 20)
+	return conv.BytesToUint16(this.Hdr, 20)
 }
 
 func (this *WavHHeader) NumChannels() uint16 {
-	return conv.BytesToUint16(this.hdr, 22)
+	return conv.BytesToUint16(this.Hdr, 22)
 }
 func (this *WavHHeader) SampleRate() uint32 {
-	return conv.BytesToUint32(this.hdr, 24)
+	return conv.BytesToUint32(this.Hdr, 24)
 }
 
 func (this *WavHHeader) ByteRate() uint32 {
-	return conv.BytesToUint32(this.hdr, 28)
+	return conv.BytesToUint32(this.Hdr, 28)
 }
 func (this *WavHHeader) BlockAlign() uint16 {
-	return conv.BytesToUint16(this.hdr, 32)
+	return conv.BytesToUint16(this.Hdr, 32)
 }
 func (this *WavHHeader) BitsPerSample() uint16 {
-	return conv.BytesToUint16(this.hdr, 34)
+	return conv.BytesToUint16(this.Hdr, 34)
 }
 
 func (this *WavHHeader) Subchunk2ID() string {
-	return string(this.hdr[36:40])
+	return string(this.Hdr[36:40])
 }
 
 func (this *WavHHeader) Subchunk2Size() uint32 {
-	return conv.BytesToUint32(this.hdr, 40)
+	return conv.BytesToUint32(this.Hdr, 40)
 }
 
 func (this *WavHHeader) String() {
@@ -120,7 +120,7 @@ func New(path string) (*Wav, error) {
 		return nil, errors.New("Failed to read 44 bytes(wav header size)")
 	}
 
-	w := &Wav{WavHHeader: WavHHeader{hdr: b}, Reader: fd, ReaderAt: fd, Closer: fd, pos: 44}
+	w := &Wav{WavHHeader: WavHHeader{Hdr: b}, Reader: fd, ReaderAt: fd, Closer: fd, pos: 44}
 
 	return w, nil
 
